@@ -1,12 +1,14 @@
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {theme} from "../theme";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 type Props = {
     // ? use this to make the prop optional
     name: string;
+    isCompleted?: boolean;
 };
 
-export function ShoppingListItem({name}: Props) {
+export function ShoppingListItem({name, isCompleted}: Props) {
     const handleDelete = () => {
         Alert.alert("Delete", `Are you sure you want to delete ${name} item?`, [
             {
@@ -22,27 +24,17 @@ export function ShoppingListItem({name}: Props) {
         ]);
     };
 
-    return <View style={styles.itemContainer} >
-        <Text style={{
-            fontSize: 18,
-            fontWeight: "200",
-            color: "black",
-        }}>{name}</Text>
+    return <View style={[styles.itemContainer, isCompleted ? styles.completedContainer : undefined]} >
+        <Text style={[styles.text, isCompleted ? styles.completedText : undefined]}>{name}</Text>
         <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleDelete()}
+            onPress={!isCompleted ? () => handleDelete(): undefined}
             activeOpacity={0.8} >
-            <Text style={styles.buttonText}>Delete</Text>
+            <AntDesign name="closecircle" size={24} color={isCompleted ? theme.colorGray : theme.colorRed} />
         </TouchableOpacity>
     </View>;
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colorWhite,
-        justifyContent: 'center',
-    },
     itemContainer: {
         borderBottomWidth: 1,
         borderBottomColor: theme.colorCerulean,
@@ -52,16 +44,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
     },
-    button: {
-        backgroundColor: theme.colorBlack,
-        padding: 8,
-        borderRadius: 6,
+    text: {
+        fontSize: 18,
+        fontWeight: "200",
+        color: "black",
     },
-    buttonText: {
-        color: theme.colorWhite,
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        letterSpacing: 1,
+    completedContainer: {
+        backgroundColor: theme.colorLightGray,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colorLightGray,
+    },
+    completedText: {
+        textDecorationLine: "line-through",
+        textDecorationColor: theme.colorGray,
+        color: theme.colorGray,
     }
 
 });

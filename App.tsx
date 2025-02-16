@@ -7,7 +7,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ShoppingListItem name="Coffee" />
-      <ShoppingListItem name="Tea Bun"/>
+      <ShoppingListItem name="Tea Bun" isCompleted/>
       <ShoppingListItem name="Pepsi"/>
     </View>
   );
